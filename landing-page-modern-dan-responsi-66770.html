@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopi Kekinian - Jakarta Selatan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6f4e37;
+            --secondary: #d1a684;
+            --bg: #fafafa;
+            --text: #333;
+            --white: #fff;
+            --radius: .8rem;
+            --transition: .3s ease;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height:1.6;
+        }
+        a{color:inherit;text-decoration:none;}
+        img{max-width:100%;display:block;}
+        .container{width:90%;max-width:1200px;margin:auto;}
+        header{
+            position:sticky;top:0;z-index:10;background:var(--white);
+            box-shadow:0 2px 6px rgba(0,0,0,.1);
+        }
+        .nav{
+            display:flex;justify-content:space-between;align-items:center;padding:1rem 0;
+        }
+        .nav .logo{
+            font-family:'Montserrat',sans-serif;
+            font-size:1.5rem;
+            font-weight:600;
+            color:var(--primary);
+        }
+        .nav ul{
+            list-style:none;
+            display:flex;
+            gap:1.5rem;
+        }
+        .nav ul li a{
+            font-weight:500;
+            transition:var(--transition);
+        }
+        .nav ul li a:hover{color:var(--primary);}
+        .hero{
+            background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url('https://images.unsplash.com/photo-1511925472923-1e0a9d4e2e5b?auto=format&fit=crop&w=1400&q=80');
+            background-size:cover;background-position:center;
+            color:var(--white);
+            text-align:center;
+            padding:8rem 1rem;
+        }
+        .hero h1{
+            font-family:'Montserrat',sans-serif;
+            font-size:2.8rem;
+            margin-bottom:.5rem;
+        }
+        .hero p{
+            font-size:1.2rem;
+            margin-bottom:2rem;
+        }
+        .btn{
+            display:inline-block;
+            background:var(--secondary);
+            color:var(--white);
+            padding:.8rem 1.5rem;
+            border-radius:var(--radius);
+            font-weight:600;
+            transition:var(--transition);
+        }
+        .btn:hover{background:var(--primary);}
+        .section{
+            padding:4rem 0;
+        }
+        .section-title{
+            text-align:center;
+            margin-bottom:3rem;
+            font-family:'Montserrat',sans-serif;
+            font-size:2rem;
+            color:var(--primary);
+        }
+        .about{
+            display:flex;
+            flex-wrap:wrap;
+            gap:2rem;
+            align-items:center;
+        }
+        .about img{
+            flex:1 1 300px;
+            border-radius:var(--radius);
+        }
+        .about .text{
+            flex:1 1 300px;
+        }
+        .about .text h2{
+            font-family:'Montserrat',sans-serif;
+            font-size:1.8rem;
+            margin-bottom:.5rem;
+        }
+        .menu-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:2rem;
+        }
+        .menu-item{
+            background:var(--white);
+            border-radius:var(--radius);
+            overflow:hidden;
+            box-shadow:0 2px 8px rgba(0,0,0,.1);
+            transition:var(--transition);
+        }
+        .menu-item:hover{transform:translateY(-5px);}
+        .menu-item img{
+            height:180px;
+            object-fit:cover;
+        }
+        .menu-item .info{
+            padding:1rem;
+        }
+        .menu-item .info h3{
+            font-family:'Montserrat',sans-serif;
+            margin-bottom:.5rem;
+            color:var(--primary);
+        }
+        .menu-item .info p{
+            font-size:.9rem;
+            color:#555;
+        }
+        .contact{
+            text-align:center;
+        }
+        .contact .whatsapp{
+            margin-top:1.5rem;
+            display:inline-flex;
+            align-items:center;
+            background:#25D366;
+            color:#fff;
+            padding:.8rem 1.2rem;
+            border-radius:var(--radius);
+            font-weight:600;
+            transition:var(--transition);
+        }
+        .contact .whatsapp:hover{background:#1ebe5d;}
+        .contact .whatsapp img{
+            width:24px;height:24px;margin-right:.5rem;
+        }
+        footer{
+            background:#222;
+            color:#ddd;
+            text-align:center;
+            padding:1.5rem 0;
+            font-size:.9rem;
+        }
+        @media(max-width:768px){
+            .hero h1{font-size:2.2rem;}
+            .nav ul{gap:.8rem;}
+            .nav ul li a{font-size:.9rem;}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container nav">
+        <div class="logo">Kopi Kekinian</div>
+        <ul>
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+    </div>
+</header>
+
+<section class="hero" id="home">
+    <div class="container">
+        <h1>Kopi Kekinian</h1>
+        <p>Rasakan sensasi kopi premium dengan cita rasa unik di jantung Jakarta Selatan.</p>
+        <a href="#menu" class="btn">Lihat Menu</a>
+    </div>
+</section>
+
+<section class="section about" id="about">
+    <div class="container">
+        <div class="about">
+            <img src="https://images.unsplash.com/photo-1511925472923-1e0a9d4e2e5b?auto=format&fit=crop&w=800&q=80" alt="Kopi">
+            <div class="text">
+                <h2>Kenapa Pilih Kami?</h2>
+                <p>Kopi Kekinian menyajikan biji kopi pilihan dari daerah terbaik Indonesia, diproses dengan teknik modern untuk menghasilkan rasa yang kaya, aroma yang menggoda, dan tampilan yang Instagramable. Nikmati suasana cozy dengan interior minimalis yang cocok untuk bekerja atau bersantai bersama teman.</p>
+                <a href="https://wa.me/6281234567890?text=Halo%20Kopi%20Kekinian%20saya%20ingin%20pesan%20kopi" class="btn">Pesan via WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="menu">
+    <div class="container">
+        <h2 class="section-title">Menu Favorit</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1511925472923-1e0a9d4e2e5b?auto=format&fit=crop&w=600&q=80" alt="Espresso">
+                <div class="info">
+                    <h3>Espresso Classic</h3>
+                    <p>Espresso hitam pekat dengan crema tebal, disajikan dalam 30ml.</p>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80" alt="Latte">
+                <div class="info">
+                    <h3>Vanilla Latte</h3>
+                    <p>Kombinasi espresso, susu steamed, dan sirup vanilla.</p>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1510626176961-4b57d4fb5b5c?auto=format&fit=crop&w=600&q=80" alt="Cold Brew">
+                <div class="info">
+                    <h3>Cold Brew</h3>
+                    <p>Kopi cold brew 12 jam, disajikan dingin dengan es batu.</p>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80" alt="Cappuccino">
+                <div class="info">
+                    <h3>Cappuccino</h3>
+                    <p>Espresso, susu steamed, dan busa susu lembut.</p>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" alt="Mocha">
+                <div class="info">
+                    <h3>Mocha</h3>
+                    <p>Espresso, susu, cokelat, dan whipped cream.</p>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1551024601-5b8c5b5c8c5b?auto=format&fit=crop&w=600&q=80" alt="Affogato">
+                <div class="info">
+                    <h3>Affogato</h3>
+                    <p>Espresso disajikan di atas es krim vanila.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section contact" id="contact">
+    <div class="container">
+        <h2 class="section-title">Hubungi Kami</h2>
+        <p>Jl. Kemang Raya No.12, Jakarta Selatan</p>
+        <p>Jam Operasional: 08.00 - 22.00 WIB</p>
+        <a class="whatsapp" href="https://wa.me/6281234567890?text=Halo%20Kopi%20Kekinian%20saya%20ingin%20pesan%20kopi">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+            Pesan via WhatsApp
+        </a>
+    </div>
+</section>
+
+<footer>
+    © 2026 Kopi Kekinian. All Rights Reserved.
+</footer>
+
+<script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+</script>
+</body>
+</html>

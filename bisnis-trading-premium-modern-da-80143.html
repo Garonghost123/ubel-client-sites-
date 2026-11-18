@@ -1,0 +1,526 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUTRA GANTENG – Trading Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --clr-bg: #0a0a0a;
+            --clr-card: rgba(255,255,255,0.07);
+            --clr-glass: rgba(255,255,255,0.04);
+            --clr-primary: #ffd700;      /* gold */
+            --clr-profit: #39ff14;       /* neon green */
+            --clr-loss: #ff4d4d;         /* red */
+            --clr-text: #e0e0e0;
+            --font-primary: 'Inter', sans-serif;
+            --font-secondary: 'Poppins', sans-serif;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family: var(--font-primary);
+            background: var(--clr-bg);
+            color: var(--clr-text);
+            line-height:1.6;
+            overflow-x:hidden;
+        }
+        a{color:inherit;text-decoration:none;}
+        button{
+            cursor:pointer;
+            border:none;
+            font-family:inherit;
+        }
+        /* ==== Navbar ==== */
+        .navbar{
+            position:fixed;
+            top:0;left:0;right:0;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:1rem 2rem;
+            background:rgba(0,0,0,0.6);
+            backdrop-filter:blur(10px);
+            z-index:1000;
+        }
+        .navbar .logo{
+            font-size:1.5rem;
+            font-weight:700;
+            color:var(--clr-primary);
+            font-family:var(--font-secondary);
+        }
+        .navbar ul{
+            list-style:none;
+            display:flex;
+            gap:1.5rem;
+        }
+        .navbar ul li a{
+            font-weight:500;
+            transition:color .3s;
+        }
+        .navbar ul li a:hover{
+            color:var(--clr-primary);
+        }
+        .navbar .cta{
+            background:linear-gradient(135deg,var(--clr-primary),#ff8c00);
+            color:#000;
+            padding:.6rem 1.2rem;
+            border-radius:8px;
+            font-weight:600;
+            box-shadow:0 4px 12px rgba(255,215,0,.4);
+        }
+        /* ==== Hero ==== */
+        .hero{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:6rem 2rem 2rem;
+            background:linear-gradient(135deg,#0a0a0a 0%,#111 100%);
+        }
+        .hero .content{
+            max-width:600px;
+        }
+        .hero h1{
+            font-size:2.8rem;
+            font-weight:700;
+            margin-bottom:.8rem;
+            background:linear-gradient(90deg,var(--clr-primary),#ff8c00);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+        .hero p{
+            margin-bottom:1.5rem;
+            font-size:1.1rem;
+            color:#ccc;
+        }
+        .hero .btn-group{
+            display:flex;
+            gap:1rem;
+        }
+        .hero .btn{
+            padding:.8rem 1.5rem;
+            border-radius:8px;
+            font-weight:600;
+            transition:transform .2s;
+        }
+        .hero .btn-primary{
+            background:var(--clr-primary);
+            color:#000;
+        }
+        .hero .btn-secondary{
+            background:rgba(255,255,255,0.1);
+            color:#fff;
+        }
+        .hero .btn:hover{
+            transform:scale(1.05);
+        }
+        .hero .graph{
+            width:380px;
+            height:300px;
+            position:relative;
+        }
+        .hero canvas{
+            width:100%;
+            height:100%;
+            border-radius:12px;
+            background:rgba(0,0,0,0.4);
+        }
+        /* ==== Ticker ==== */
+        .ticker{
+            background:rgba(0,0,0,0.8);
+            overflow:hidden;
+            white-space:nowrap;
+            padding:.5rem 0;
+            font-size:.9rem;
+        }
+        .ticker span{
+            display:inline-block;
+            margin:0 2rem;
+        }
+        .ticker .up{color:var(--clr-profit);}
+        .ticker .down{color:var(--clr-loss);}
+        /* ==== Section ==== */
+        section{
+            padding:4rem 2rem;
+        }
+        .section-title{
+            text-align:center;
+            margin-bottom:2rem;
+            font-size:2rem;
+            font-weight:700;
+            background:linear-gradient(90deg,var(--clr-primary),#ff8c00);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+        .stats{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:1.5rem;
+        }
+        .stat-card{
+            background:var(--clr-card);
+            backdrop-filter:blur(8px);
+            border-radius:12px;
+            padding:2rem;
+            text-align:center;
+            box-shadow:0 4px 12px rgba(0,0,0,.3);
+        }
+        .stat-card h3{
+            font-size:2rem;
+            margin-bottom:.5rem;
+            color:var(--clr-primary);
+        }
+        .stat-card p{
+            font-size:.9rem;
+            color:#bbb;
+        }
+        /* ==== TradingView ==== */
+        .tv-widget{
+            width:100%;
+            height:500px;
+            border-radius:12px;
+            overflow:hidden;
+            background:var(--clr-glass);
+            backdrop-filter:blur(10px);
+            box-shadow:0 4px 12px rgba(0,0,0,.5);
+        }
+        .tv-controls{
+            display:flex;
+            justify-content:center;
+            gap:1rem;
+            margin-top:.8rem;
+        }
+        .tv-controls button{
+            padding:.5rem 1rem;
+            border-radius:6px;
+            background:rgba(255,255,255,0.1);
+            color:#fff;
+            transition:background .3s;
+        }
+        .tv-controls button.active,
+        .tv-controls button:hover{
+            background:var(--clr-primary);
+            color:#000;
+        }
+        /* ==== Features ==== */
+        .features{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:1.5rem;
+        }
+        .feature-card{
+            background:var(--clr-card);
+            backdrop-filter:blur(8px);
+            border-radius:12px;
+            padding:2rem;
+            text-align:center;
+            transition:transform .3s;
+        }
+        .feature-card:hover{
+            transform:translateY(-5px);
+        }
+        .feature-card img{
+            width:60px;
+            margin-bottom:1rem;
+        }
+        .feature-card h4{
+            margin-bottom:.5rem;
+            font-size:1.2rem;
+            color:var(--clr-primary);
+        }
+        /* ==== Pricing ==== */
+        .pricing{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:2rem;
+        }
+        .price-card{
+            background:var(--clr-card);
+            backdrop-filter:blur(8px);
+            border-radius:12px;
+            padding:2rem;
+            text-align:center;
+            position:relative;
+            box-shadow:0 4px 12px rgba(0,0,0,.4);
+        }
+        .price-card.popular{
+            border:2px solid var(--clr-primary);
+        }
+        .price-card .badge{
+            position:absolute;
+            top:-12px;
+            left:50%;
+            transform:translateX(-50%);
+            background:var(--clr-primary);
+            color:#000;
+            padding:.3rem .8rem;
+            border-radius:12px;
+            font-weight:600;
+            font-size:.8rem;
+        }
+        .price-card h3{
+            margin:1rem 0;
+            font-size:1.6rem;
+            color:#fff;
+        }
+        .price-card .price{
+            font-size:2rem;
+            font-weight:700;
+            margin:1rem 0;
+            color:var(--clr-primary);
+        }
+        .price-card ul{
+            list-style:none;
+            text-align:left;
+            margin:1rem 0;
+        }
+        .price-card ul li{
+            margin:0.4rem 0;
+            display:flex;
+            align-items:center;
+            gap:.5rem;
+        }
+        .price-card ul li::before{
+            content:"✔";
+            color:var(--clr-primary);
+        }
+        .price-card button{
+            margin-top:1rem;
+            width:100%;
+            padding:.8rem;
+            border-radius:8px;
+            background:var(--clr-primary);
+            color:#000;
+            font-weight:600;
+        }
+        /* ==== Testimonials ==== */
+        .testimonials{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:1.5rem;
+        }
+        .testi-card{
+            background:var(--clr-card);
+            backdrop-filter:blur(8px);
+            border-radius:12px;
+            padding:1.5rem;
+            text-align:center;
+            box-shadow:0 4px 12px rgba(0,0,0,.3);
+        }
+        .testi-card img{
+            width:80px;
+            height:80px;
+            border-radius:50%;
+            object-fit:cover;
+            margin-bottom:.8rem;
+        }
+        .testi-card h4{
+            margin-bottom:.3rem;
+            color:var(--clr-primary);
+        }
+        .testi-card p{
+            font-size:.9rem;
+            color:#ccc;
+        }
+        /* ==== FAQ ==== */
+        .faq{
+            max-width:800px;
+            margin:auto;
+        }
+        .faq-item{
+            background:var(--clr-card);
+            backdrop-filter:blur(8px);
+            border-radius:8px;
+            margin-bottom:1rem;
+            overflow:hidden;
+        }
+        .faq-question{
+            padding:1rem;
+            cursor:pointer;
+            position:relative;
+        }
+        .faq-question::after{
+            content:"▾";
+            position:absolute;
+            right:1rem;
+            top:50%;
+            transform:translateY(-50%);
+            transition:transform .3s;
+        }
+        .faq-item.active .faq-question::after{
+            transform:translateY(-50%) rotate(180deg);
+        }
+        .faq-answer{
+            max-height:0;
+            overflow:hidden;
+            transition:max-height .4s ease;
+            padding:0 1rem;
+        }
+        .faq-item.active .faq-answer{
+            max-height:200px;
+            padding:1rem;
+        }
+        /* ==== Footer ==== */
+        footer{
+            background:#111;
+            color:#aaa;
+            padding:2rem;
+            font-size:.9rem;
+        }
+        .footer-top{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            margin-bottom:1rem;
+        }
+        .footer-top div{
+            flex:1 1 200px;
+            margin:0.5rem;
+        }
+        .socials a{
+            margin-right:.8rem;
+            font-size:1.2rem;
+            color:#fff;
+            transition:color .3s;
+        }
+        .socials a:hover{
+            color:var(--clr-primary);
+        }
+        .disclaimer{
+            font-size:.8rem;
+            color:#777;
+            text-align:center;
+            margin-top:1rem;
+        }
+        @media(max-width:768px){
+            .hero{
+                flex-direction:column;
+                text-align:center;
+                padding-top:8rem;
+            }
+            .hero .graph{
+                margin-top:2rem;
+                width:100%;
+                max-width:320px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+    <div class="logo">PUTRA GANTENG</div>
+    <nav>
+        <ul>
+            <li><a href="#hero">Beranda</a></li>
+            <li><a href="#fitur">Fitur</a></li>
+            <li><a href="#harga">Harga</a></li>
+            <li><a href="#testimoni">Testimoni</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </nav>
+    <a href="#harga" class="cta">Mulai Trading</a>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+    <div class="content">
+        <h1>Trading Lebih Cerdas, Bukan Lebih Keras</h1>
+        <p>Platform premium dengan sinyal AI, copy‑trading, dan edukasi live untuk meningkatkan profit Anda.</p>
+        <div class="btn-group">
+            <button class="btn btn-primary">Daftar Sekarang</button>
+            <button class="btn btn-secondary">Lihat Demo</button>
+        </div>
+    </div>
+    <div class="graph">
+        <canvas id="candlestickCanvas"></canvas>
+    </div>
+</section>
+
+<!-- Ticker -->
+<div class="ticker" id="ticker">
+    <span>BTC/USD <span class="up">+0.45%</span> 27,845</span>
+    <span>XAU/USD <span class="down">-0.12%</span> 1,825</span>
+    <span>EUR/USD <span class="up">+0.22%</span> 1.085</span>
+    <span>GBP/JPY <span class="down">-0.31%</span> 151.23</span>
+</div>
+
+<!-- Statistik -->
+<section id="statistik">
+    <h2 class="section-title">Statistik Kami</h2>
+    <div class="stats">
+        <div class="stat-card">
+            <h3 class="count" data-target="12500">0</h3>
+            <p>Total Member</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="count" data-target="87">0</h3>
+            <p>Win Rate (%)</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="count" data-target="1500000000">0</h3>
+            <p>Profit Bulanan (IDR)</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="count" data-target="4.9">0</h3>
+            <p>Rating (5)</p>
+        </div>
+    </div>
+</section>
+
+<!-- TradingView Chart -->
+<section id="chart">
+    <h2 class="section-title">Grafik TradingView</h2>
+    <div class="tv-widget" id="tv-widget"></div>
+    <div class="tv-controls">
+        <button data-interval="1" class="active">1M</button>
+        <button data-interval="5">5M</button>
+        <button data-interval="15">15M</button>
+        <button data-interval="60">1H</button>
+        <button data-interval="240">4H</button>
+        <button data-interval="D">1D</button>
+        <button id="buyBtn" style="background:var(--clr-profit);color:#000;">Buy</button>
+        <button id="sellBtn" style="background:var(--clr-loss);color:#000;">Sell</button>
+    </div>
+</section>
+
+<!-- Fitur -->
+<section id="fitur">
+    <h2 class="section-title">Fitur Unggulan</h2>
+    <div class="features">
+        <div class="feature-card">
+            <img src="https://source.unsplash.com/collection/190727/80x80?ai" alt="AI">
+            <h4>Sinyal Trading AI</h4>
+            <p>Prediksi akurat dengan machine learning.</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://source.unsplash.com/collection/190727/80x80?copy" alt="Copy">
+            <h4>Copy Trading</h4>
+            <p>Ikuti trader profesional secara otomatis.</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://source.unsplash.com/collection/190727/80x80?live" alt="Live">
+            <h4>Kelas Live</h4>
+            <p>Webinar harian bersama mentor berpengalaman.</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://source.unsplash.com/collection/190727/80x80?community" alt="Community">
+            <h4>Komunitas VIP</h4>
+            <p>Group eksklusif dengan analisa harian.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section id="harga">
+    <h2 class="section-title">Paket Harga</h2>
+    <div class="pricing">
+        <div class="price-card">
+            <h3>Basic</h3>
+            <div class="price">Rp 99.000<span style="font-size:.8rem;">/bln</span></div>
+            <ul>
+                <li>Akses Sinyal Harian</li>

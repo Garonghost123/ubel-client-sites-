@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopi Loka – Rasa Gaya Kini</title>
+    <meta name="description" content="Kopi Loka – Kopi specialty modern di Jakarta Selatan. Pesan cepat via WhatsApp, lihat menu, testimoni, dan nikmati suasana Instagramable.">
+    <meta property="og:title" content="Kopi Loka – Rasa Gaya Kini">
+    <meta property="og:description" content="Kopi specialty modern di Jakarta Selatan. Pesan cepat via WhatsApp.">
+    <meta property="og:image" content="https://Garonghost123.github.io/ubel-client-sites-/assets/img-224243.svg">
+    <style>
+        :root{
+            --bg-dark:#212121;
+            --accent-brown:#6F4E37;
+            --accent-mint:#A8D5BA;
+            --text-light:#fff;
+            --text-dark:#212121;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{
+            font-family:Arial,Helvetica,sans-serif;
+            line-height:1.6;
+            background:#fafafa;
+            color:var(--text-dark);
+        }
+        a{color:inherit;text-decoration:none;}
+        img{max-width:100%;display:block;}
+        header{
+            position:sticky;top:0;z-index:1000;
+            background:var(--bg-dark);
+            color:var(--text-light);
+            display:flex;align-items:center;justify-content:space-between;
+            padding:0.8rem 2rem;
+        }
+        header .logo{
+            display:flex;align-items:center;gap:0.5rem;
+        }
+        header .logo img{height:40px;}
+        header nav a{
+            margin-left:1.5rem;
+            font-weight:500;
+            transition:color .3s;
+        }
+        header nav a:hover{color:var(--accent-mint);}
+        .hero{
+            background:url('https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color:var(--text-light);
+            text-align:center;
+            padding:6rem 2rem;
+            position:relative;
+        }
+        .hero::after{
+            content:"";position:absolute;inset:0;background:rgba(0,0,0,0.5);
+        }
+        .hero .content{
+            position:relative;z-index:1;
+        }
+        .hero img{height:80px;margin-bottom:1rem;}
+        .hero h1{font-size:2.8rem;margin-bottom:.5rem;}
+        .hero p{font-size:1.2rem;margin-bottom:1.5rem;}
+        .btn{
+            display:inline-block;
+            background:var(--accent-mint);
+            color:var(--text-dark);
+            padding:.8rem 1.5rem;
+            border-radius:30px;
+            font-weight:600;
+            transition:background .3s;
+        }
+        .btn:hover{background:#8fd5c0;}
+        section{padding:4rem 2rem;}
+        .section-title{
+            text-align:center;
+            margin-bottom:2rem;
+            font-size:2rem;
+            color:var(--accent-brown);
+        }
+        .menu-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:2rem;
+        }
+        .card{
+            background:#fff;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 2px 8px rgba(0,0,0,.1);
+            display:flex;flex-direction:column;
+        }
+        .card img{height:180px;object-fit:cover;}
+        .card-body{flex:1;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;}
+        .card-body h3{margin-bottom:.5rem;color:var(--accent-brown);}
+        .card-body .price{font-weight:bold;color:var(--accent-brown);margin-bottom:1rem;}
+        .card-body .actions{display:flex;gap:.5rem;}
+        .card-body .actions button{
+            flex:1;
+            border:none;
+            cursor:pointer;
+            padding:.6rem;
+            border-radius:6px;
+            font-weight:600;
+        }
+        .add-cart{background:var(--accent-mint);color:var(--text-dark);}
+        .whatsapp{background:#25D366;color:#fff;}
+        .cart-modal{
+            position:fixed;top:0;right:-100%;width:320px;height:100%;
+            background:#fff;box-shadow:-2px 0 8px rgba(0,0,0,.2);
+            transition:right .3s;
+            display:flex;flex-direction:column;
+            z-index:2000;
+        }
+        .cart-modal.open{right:0;}
+        .cart-header{
+            padding:1rem;
+            background:var(--bg-dark);
+            color:#fff;
+            display:flex;justify-content:space-between;align-items:center;
+        }
+        .cart-body{flex:1;padding:1rem;overflow-y:auto;}
+        .cart-item{display:flex;justify-content:space-between;margin-bottom:.8rem;}
+        .cart-total{font-weight:bold;padding:1rem;border-top:1px solid #eee;}
+        .cart-footer{padding:1rem;}
+        .modal{
+            position:fixed;top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;
+            opacity:0;visibility:hidden;transition:opacity .3s;
+            z-index:2000;
+        }
+        .modal.open{opacity:1;visibility:visible;}
+        .modal-content{
+            background:#fff;padding:2rem;border-radius:12px;max-width:400px;width:100%;
+        }
+        .modal-content h2{margin-bottom:1rem;text-align:center;}
+        .modal-content form{display:flex;flex-direction:column;gap:.8rem;}
+        .modal-content input{
+            padding:.6rem;
+            border:1px solid #ccc;
+            border-radius:6px;
+        }
+        .modal-content button{
+            padding:.8rem;
+            border:none;
+            background:var(--accent-mint);
+            color:var(--text-dark);
+            font-weight:600;
+            border-radius:6px;
+            cursor:pointer;
+        }
+        .tabs{display:flex;gap:.5rem;margin-bottom:1rem;}
+        .tab{flex:1;padding:.5rem;text-align:center;background:#eee;cursor:pointer;border-radius:6px;}
+        .tab.active{background:var(--accent-mint);color:#fff;}
+        .testimonials{
+            max-width:800px;margin:auto;position:relative;
+        }
+        .testimonial{display:none;text-align:center;padding:1rem;}
+        .testimonial.active{display:block;}
+        .testimonial p{font-style:italic;margin-bottom:.5rem;}
+        .testimonial h4{font-weight:600;color:var(--accent-brown);}
+        .footer{
+            background:var(--bg-dark);
+            color:#ddd;
+            padding:2rem;
+            text-align:center;
+        }
+        .footer a{color:#ddd;margin:0 .5rem;}
+        @media(max-width:600px){
+            header{flex-direction:column;gap:.5rem;}
+            .hero h1{font-size:2rem;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="https://Garonghost123.github.io/ubel-client-sites-/assets/img-224243.svg" alt="Kopi Loka Logo">
+            <span>Kopi Loka</span>
+        </div>
+        <nav>
+            <a href="#home">Beranda</a>
+            <a href="#menu">Menu</a>
+            <a href="#about">Tentang</a>
+            <a href="#testimoni">Testimoni</a>
+            <a href="#contact">Kontak</a>
+            <a href="javascript:void(0)" id="loginBtn">Login</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="content">
+            <img src="https://Garonghost123.github.io/ubel-client-sites-/assets/img-224243.svg" alt="Kopi Loka Logo">
+            <h1>Rasa Gaya Kini</h1>
+            <p>Kopi specialty modern di jantung Jakarta Selatan.</p>
+            <a class="btn" href="https://wa.me/628123456789" target="_blank">Pesan via WhatsApp</a>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <h2 class="section-title">Tentang Kami</h2>
+        <p style="max-width:800px;margin:auto;text-align:center;">
+            Kopi Loka hadir untuk para pecinta kopi yang menginginkan rasa premium dengan suasana modern.
+            Kami menyajikan kopi specialty pilihan, tempat Instagramable, dan layanan pemesanan cepat lewat WhatsApp.
+        </p>
+    </section>
+
+    <!-- Menu -->
+    <section id="menu">
+        <h2 class="section-title">Menu Kopi</h2>
+        <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <!-- Testimoni -->
+    <section id="testimoni">
+        <h2 class="section-title">Apa Kata Mereka?</h2>
+        <div class="testimonials" id="testimonials">
+            <div class="testimonial active">
+                <p>"Kopi Loka selalu jadi tempat nongkrong favorit saya!"</p>
+                <h4>Rina S.</h4>
+            </div>
+            <div class="testimonial">
+                <p>"Rasa kopi yang konsisten dan tempatnya cozy banget."</p>
+                <h4>Andi K.</h4>
+            </div>
+            <div class="testimonial">
+                <p>"Pelayanan cepat lewat WhatsApp, cocok buat yang sibuk."</p>
+                <h4>Siti M.</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <span>Keranjang Belanja</span>
+            <button id="closeCart" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;">✕</button>
+        </div>
+        <div class="cart-body" id="cartBody">
+            <!-- Items injected by JS -->
+        </div>
+        <div class="cart-total" id="cartTotal">Total: Rp 0</div>
+        <div class="cart-footer">
+            <button id="checkoutBtn" class="btn" style="width:100%;">Checkout & Order</button>
+        </div>
+    </div>
+
+    <!-- Login / Register Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="tabs">
+                <div class="tab active" data-tab="login">Login</div>
+                <div class="tab" data-tab="register">Daftar</div>
+            </div>
+            <div id="loginForm">
+                <h2>Login Member</h2>
+                <form id="formLogin">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="submit">Masuk</button>
+                </form>
+            </div>
+            <div id="registerForm" style="display:none;">
+                <h2>Daftar Member</h2>
+                <form id="formRegister">
+                    <input type="text" id="regName" placeholder="Nama Lengkap" required>
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                    <button type="submit">Daftar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <p>© 2026 Kopi Loka. All rights reserved.</p>
+        <p>Jl. Kemang Raya No. 12, Jakarta Selatan</p>
+        <p>Jam Operasional: 08.00 – 22.00 WIB</p>
+        <p>
+            <a href="https://wa.me/628123456789" target="_blank">WhatsApp</a> |
+            <a href="#" target="_blank">Instagram</a> |
+            <a href="#" target="_blank">Facebook</a>
+        </p>
+    </footer>
+
+    <script>
+        // ==== Konstanta API ====
+        const WORKER_API_URL = "https://ubelcompanyhq.capolgaming04.workers.dev"; // Ganti dengan URL API sebenarnya
+        const SITE_SLUG = "kopi-loka-landing-page-modern-da-39461";
+
+        // ==== Data Produk (contoh) ====
+        const products = [
+            {id:1, name:'Espresso', price:25000, img:'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80'},
+            {id:2, name:'Cappuccino', price:30000, img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80'},
+            {id:3, name:'Latte', price:32000, img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=400&q=80'},
+            {id:4, name:'Cold Brew', price:35000, img:'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80'},
+            {id:5, name:'Affogato', price:38000, img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=400&q=80'}
+        ];
+
+        // ==== Render Produk ====
+        const menuGrid = document.getElementById('menuGrid');
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className='card';
+            card.innerHTML = `
+                <img src="${p.img}" alt="${p.name}">
+                <div class="card-body">
+                    <h3>${p.name}</h3>
+                    <div class="price">Rp ${p.price.toLocaleString()}</div>
+                    <div class="actions">
+                        <button class="add-cart" data-id="${p.id}">Keranjang</button>
+                        <button class="whatsapp" data-id="${p.id}">WhatsApp</button>
+                    </div>
+                </div>
+            `;
+            menuGrid.appendChild(card);
+        });
+
+        // ==== Cart Management ====
+        let cart = [];
+        const cartModal = document.getElementById('cartModal');
+        const cartBody = document.getElementById('cartBody');
+        const cartTotal = document.getElementById('cartTotal');
+
+        function updateCartUI(){
+            cartBody.innerHTML='';
+            let total = 0;
+            cart.forEach(item => {
+                const div = document.createElement('div');
+                div.className='cart-item';
+                div.innerHTML = `<span>${item.name} x ${item.qty}</span><span>Rp ${(item.price*item.qty).toLocaleString()}</span>`;
+                cartBody.appendChild(div);
+                total += item.price*item.qty;
+            });
+            cartTotal.textContent = `Total: Rp ${total.toLocaleString()}`;
+        }
+
+        // Add to cart
+        document.querySelectorAll('.add-cart').forEach(btn=>{
+            btn.addEventListener('click', e=>{
+                const id = +e.target.dataset.id;
+                const prod = products.find(p=>p.id===id);
+                const existing = cart.find(i=>i.id===id);
+                if(existing){
+                    existing.qty+=1;
+                }else{
+                    cart.push({...prod, qty:1});
+                }
+                updateCartUI();
+                cartModal.classList.add('open');
+            });
+        });
+
+        // WhatsApp order per item
+        document.querySelectorAll('.whatsapp').forEach(btn=>{
+            btn.addEventListener('click', e=>{
+                const id = +e.target.dataset.id;
+                const prod = products.find(p=>p.id===id);
+                const text = encodeURIComponent(`Saya ingin pesan ${prod.name} - Rp ${prod.price}`);
+                window.open(`https://wa.me/628123456789?text=${text}`, '_blank');
+            });
+        });
+
+        // Close cart
+        document.getElementById('closeCart').addEventListener('click',()=>cartModal.classList.remove('open'));
+
+        // Checkout (order API)
+        document.getElementById('checkoutBtn').addEventListener('click', async ()=>{
+            if(cart.length===0){alert('Keranjang kosong!');return;}
+            const userEmail = prompt('Masukkan email Anda untuk order:');
+            if(!userEmail) return;
+            const items_summary = cart.map(i=>({name:i.name, qty:i.qty, price:i.price}));
+            const total_amount = cart.reduce((sum,i)=>sum + i.price*i.qty,0);
+            const payload = {
+                site_slug: SITE_SLUG,
+                user_email: userEmail,
+                items_summary,
+                total_amount
+            };
+            try{
+                const res = await fetch(`${WORKER_API_URL}/api/site/order`,{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if(res.ok){
+                    alert('Order berhasil! Kami akan menghubungi Anda via WhatsApp.');
+                    cart = []; updateCartUI(); cartModal.classList.remove('open');
+                }else{
+                    alert('Gagal melakukan order: '+(data.message||'Error'));
+                }
+            }catch(err){
+                console.error(err);
+                alert('Terjadi kesalahan jaringan.');
+            }
+        });
+
+        // ==== Auth Modal ====
+        const authModal = document.getElementById('authModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const tabs = document.querySelectorAll('.tab');
+        const loginFormDiv = document.getElementById('loginForm');
+        const registerFormDiv = document.getElementById('registerForm');
+
+        loginBtn.addEventListener('click',()=>authModal.classList.add('open'));
+
+        authModal.addEventListener('click', e=>{
+            if(e.target===authModal) authModal.classList.remove('open');
+        });
+
+        tabs.forEach(t=>t.addEventListener('click',()=>{
+            tabs.forEach(x=>x.classList.remove('active'));
+            t.classList.add('active');
+            if(t.dataset.tab==='login'){
+                loginFormDiv.style.display='block';
+                registerFormDiv.style.display='none';
+            }else{
+                loginFormDiv.style.display='none';
+                registerFormDiv.style.display='block';
+            }
+        }));
+
+        // Register
+        document.getElementById('formRegister').addEventListener('submit', async e=>{
+            e.preventDefault();
+            const payload = {
+                site_slug: SITE_SLUG,
+                full_name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value
+            };
+            try{
+                const res = await fetch(`${WORKER_API_URL}/api/site/register`,{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if(res.ok){
+                    alert('Pendaftaran berhasil! Silakan login.');
+                    tabs[0].click(); // switch to login
+                }else{
+                    alert('Gagal mendaftar: '+(data.message||'Error'));
+                }
+            }catch(err){
+                console.error(err);
+                alert('Kesalahan jaringan.');
+            }
+        });
+
+        // Login
+        document.getElementById('formLogin').addEventListener('submit', async e=>{
+            e.preventDefault();
+            const payload = {
+                site_slug: SITE_SLUG,
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+            try{
+                const res = await fetch(`${WORKER_API_URL}/api/site/login`,{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if(res.ok){
+                    alert('Login berhasil! Selamat datang.');
+                    authModal.classList.remove('open');
+                }else{
+                    alert('Login gagal: '+(data.message||'Error'));
+                }
+            }catch(err){
+                console.error(err);
+                alert('Kesalahan jaringan.');
+            }
+        });
+
+        // ==== Testimonial Carousel ====
+        let testimonialIdx = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        setInterval(()=>{
+            testimonials[testimonialIdx].classList.remove('active');
+            testimonialIdx = (testimonialIdx+1)%testimonials.length;
+            testimonials[testimonialIdx].classList.add('active');
+        },4000);
+    </script>
+</body>
+</html>

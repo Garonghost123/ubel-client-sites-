@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kopi Kenangan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    :root{
+        --primary:#ffb400;      /* kuning keranjang */
+        --bg-gradient:linear-gradient(135deg,#ff9a9e 0%,#fad0c4 100%);
+        --font:"Poppins",sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+        font-family:var(--font);
+        background:var(--bg-gradient);
+        min-height:100vh;
+        display:flex;
+        flex-direction:column;
+    }
+    header{
+        background:#fff;
+        padding:1rem 2rem;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        box-shadow:0 2px 6px rgba(0,0,0,.1);
+        position:sticky;top:0;z-index:10;
+    }
+    header .logo{font-size:1.5rem;font-weight:600;color:#333;}
+    header .nav a{margin:0 .5rem;color:#555;text-decoration:none;}
+    header .cart{
+        position:relative;
+        cursor:pointer;
+        color:#fff;
+        background:var(--primary);
+        width:2.5rem;height:2.5rem;
+        border-radius:50%;
+        display:flex;align-items:center;justify-content:center;
+    }
+    header .cart .count{
+        position:absolute;
+        top:-5px;right:-5px;
+        background:#e53935;
+        color:#fff;
+        font-size:.7rem;
+        width:1.2rem;height:1.2rem;
+        border-radius:50%;
+        display:flex;align-items:center;justify-content:center;
+    }
+    main{flex:1;padding:2rem;}
+    .hero{
+        background:url('https://source.unsplash.com/featured/?coffee') center/cover no-repeat;
+        height:250px;
+        border-radius:12px;
+        display:flex;align-items:center;justify-content:center;
+        color:#fff;
+        text-shadow:0 2px 4px rgba(0,0,0,.5);
+        font-size:2rem;
+        font-weight:600;
+    }
+    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem;margin-top:2rem;}
+    .product{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1);display:flex;flex-direction:column;}
+    .product img{width:100%;height:150px;object-fit:cover;}
+    .product .info{padding:.8rem 1rem;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+    .product h3{font-size:1.1rem;margin-bottom:.5rem;color:#333;}
+    .product p{font-size:.9rem;color:#777;margin-bottom:.5rem;}
+    .product .price{font-weight:600;color:#ff5722;margin-bottom:.5rem;}
+    .product button{background:var(--primary);border:none;color:#fff;padding:.5rem;cursor:pointer;border-radius:4px;transition:.2s;}
+    .product button:hover{background:#e09b00;}
+    /* Modal */
+    .modal{
+        position:fixed;top:0;left:0;width:100%;height:100%;
+        background:rgba(0,0,0,.5);
+        display:flex;align-items:center;justify-content:center;
+        opacity:0;visibility:hidden;transition:.3s;
+    }
+    .modal.active{opacity:1;visibility:visible;}
+    .modal .modal-content{
+        background:#fff;border-radius:8px;width:90%;max-width:400px;
+        padding:1.5rem;position:relative;
+    }
+    .modal .close{
+        position:absolute;top:.5rem;right:.5rem;font-size:1.2rem;cursor:pointer;color:#777;
+    }
+    .tabs{display:flex;border-bottom:1px solid #ddd;margin-bottom:1rem;}
+    .tabs button{
+        flex:1;padding:.5rem;background:none;border:none;font-weight:600;cursor:pointer;
+    }
+    .tabs button.active{border-bottom:2px solid var(--primary);color:var(--primary);}
+    .form-group{margin-bottom:1rem;}
+    .form-group label{display:block;margin-bottom:.3rem;font-size:.9rem;color:#555;}
+    .form-group input{
+        width:100%;padding:.5rem;border:1px solid #ccc;border-radius:4px;
+    }
+    .form-group button{
+        width:100%;padding:.6rem;background:var(--primary);border:none;color:#fff;
+        font-weight:600;border-radius:4px;cursor:pointer;transition:.2s;
+    }
+    .form-group button:hover{background:#e09b00;}
+    .loading{display:flex;align-items:center;justify-content:center;padding:1rem;color:#555;}
+    .error{color:#e53935;margin-top:.5rem;font-size:.9rem;}
+    /* Dashboard */
+    .dashboard{margin-top:2rem;}
+    .dashboard h2{margin-bottom:1rem;color:#333;}
+    .dashboard .logout{background:#e53935;color:#fff;padding:.4rem .8rem;border:none;border-radius:4px;cursor:pointer;}
+    @media(max-width:600px){
+        header{flex-direction:column;gap:.5rem;}
+        .hero{height:180px;font-size:1.5rem;}
+    }
+</style>
+</head>
+<body>
+<header>
+    <div class="logo">Kopi Kenangan</div>
+    <nav class="nav">
+        <a href="#" id="nav-home">Beranda</a>
+        <a href="#" id="nav-dashboard">Dashboard</a>
+        <a href="#" id="nav-login">Masuk / Daftar</a>
+    </nav>
+    <div class="cart" id="cartBtn"><i class="fas fa-shopping-cart"></i><div class="count" id="cartCount">0</div></div>
+</header>
+
+<main>
+    <section class="hero">Nikmati Kopi Kenangan Anda</section>
+
+    <section class="products" id="productList">
+        <!-- Produk akan di‑render lewat JS -->
+    </section>
+
+    <section class="dashboard" id="dashboard" style="display:none;">
+        <h2>Selamat Datang, <span id="userName"></span>!</h2>
+        <p>Email: <span id="userEmail"></span></p>
+        <p>Peran: <span id="userRole"></span></p>
+        <button class="logout" id="logoutBtn">Keluar</button>
+    </section>
+</main>
+
+<!-- Cart Modal -->
+<div class="modal" id="cartModal">
+    <div class="modal-content">
+        <span class="close" data-close="cartModal">&times;</span>
+        <h3>Keranjang Belanja</h3>
+        <div id="cartItems"></div>
+        <p class="price-total">Total: <strong id="cartTotal">Rp 0</strong></p>
+        <button id="checkoutBtn" style="background:var(--primary);color:#fff;padding:.5rem;border:none;border-radius:4px;cursor:pointer;">Checkout</button>
+        <div id="orderStatus" class="loading" style="display:none;">Mengirim pesanan...</div>
+        <div id="orderError" class="error"></div>
+    </div>
+</div>
+
+<!-- Auth Modal -->
+<div class="modal" id="authModal">
+    <div class="modal-content">
+        <span class="close" data-close="authModal">&times;</span>
+        <div class="tabs">
+            <button class="tab active" data-tab="login">Masuk</button>
+            <button class="tab" data-tab="register">Daftar</button>
+        </div>
+        <div id="loginForm">
+            <div class="form-group"><label>Email</label><input type="email" id="loginEmail"></div>
+            <div class="form-group"><label>Password</label><input type="password" id="loginPassword"></div>
+            <div class="form-group"><button id="loginBtn">Masuk</button></div>
+            <div id="loginError" class="error"></div>
+        </div>
+        <div id="registerForm" style="display:none;">
+            <div class="form-group"><label>Nama Lengkap</label><input type="text" id="regName"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="regEmail"></div>
+            <div class="form-group"><label>Password</label><input type="password" id="regPassword"></div>
+            <div class="form-group"><button id="registerBtn">Daftar</button></div>
+            <div id="registerError" class="error"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ==== Konstanta yang disuntikkan ==== */
+const WORKER_API_URL = "https://ubelcompanyhq.capolgaming04.workers.dev";   // ganti dengan URL API sebenarnya
+const SITE_SLUG = "kopi-kenangan-dengan-keranjang-k-68561";
+
+/* ==== Data Produk (dummy) ==== */
+const PRODUCTS = [
+    {id:1, name:"Espresso Classic", price:25000, img:"https://source.unsplash.com/featured/200x200?espresso"},
+    {id:2, name:"Cappuccino Cream", price:30000, img:"https://source.unsplash.com/featured/200x200?cappuccino"},
+    {id:3, name:"Latte Art", price:32000, img:"https://source.unsplash.com/featured/200x200?latte"},
+    {id:4, name:"Mocha Delight", price:35000, img:"https://source.unsplash.com/featured/200x200?mocha"},
+    {id:5, name:"Cold Brew", price:28000, img:"https://source.unsplash.com/featured/200x200?coldbrew"},
+    {id:6, name:"Affogato", price:34000, img:"https://source.unsplash.com/featured/200x200?affogato"}
+];
+
+/* ==== State ==== */
+let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+let user = JSON.parse(localStorage.getItem('user')||'null');
+
+/* ==== Helper ==== */
+function $(id){return document.getElementById(id);}
+function formatRupiah(num){
+    return 'Rp '+num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); 
+}
+
+/* ==== Render Produk ==== */
+function renderProducts(){
+    const container = $('productList');
+    container.innerHTML='';
+    PRODUCTS.forEach(p=>{
+        const div=document.createElement('div');
+        div.className='product';
+        div.innerHTML=`
+            <img src="${p.img}" alt="${p.name}">
+            <div class="info">
+                <h3>${p.name}</h3>
+                <p>Kopi premium dengan rasa yang memukau.</p>
+                <div class="price">${formatRupiah(p.price)}</div>
+                <button data-id="${p.id}">Tambah ke Keranjang</button>
+            </div>`;
+        container.appendChild(div);
+    });
+}
+renderProducts();
+
+/* ==== Cart Logic ==== */
+function updateCartUI(){
+    $('cartCount').textContent = cart.reduce((a,b)=>a+b.qty,0);
+}
+function addToCart(id){
+    const product = PRODUCTS.find(p=>p.id===id);
+    const existing = cart.find(i=>i.id===id);
+    if(existing) existing.qty+=1;
+    else cart.push({id, name:product.name, price:product.price, qty:1});
+    localStorage.setItem('cart',JSON.stringify(cart));
+    updateCartUI();
+}
+document.addEventListener('click',e=>{
+    if(e.target.matches('.product button')){
+        const id=parseInt(e.target.dataset.id);
+        addToCart(id);
+    }
+});
+
+/* ==== Cart Modal ==== */
+$('cartBtn').addEventListener('click',()=>openModal('cartModal'));
+document.querySelectorAll('[data-close]').forEach(el=>{
+    el.addEventListener('click',()=>closeModal(el.dataset.close));
+});
+function openModal(id){$(id).classList.add('active');renderCart();}
+function closeModal(id){$(id).classList.remove('active');}
+function renderCart(){
+    const list=$('cartItems');
+    list.innerHTML='';
+    if(cart.length===0){
+        list.innerHTML='<p>Keranjang kosong.</p>';
+        $('checkoutBtn').disabled=true;
+        $('cartTotal').textContent='Rp 0';
+        return;
+    }
+    let total=0;
+    cart.forEach(item=>{
+        const line=document.createElement('div');
+        line.style.display='flex';
+        line.style.justifyContent='space-between';
+        line.style.marginBottom='0.5rem';
+        line.innerHTML=`
+            <span>${item.name} x ${item.qty}</span>
+            <span>${formatRupiah(item.price*item.qty)}</span>`;
+        list.appendChild(line);
+        total+=item.price*item.qty;
+    });
+    $('cartTotal').textContent=formatRupiah(total);
+    $('checkoutBtn').disabled=false;
+}
+
+/* ==== Checkout ==== */
+$('checkoutBtn').addEventListener('click', async ()=>{
+    if(!user){alert('Silakan masuk terlebih dahulu.');closeModal('cartModal');openModal('authModal');return;}
+    const itemsSummary = cart.map(i=>`${i.name} x${i.qty}`).join(', ');
+    const total = cart.reduce((a,b)=>a+b.price*b.qty,0);
+    const payload = {
+        site_slug: SITE_SLUG,
+        user_email: user.email,
+        items_summary: itemsSummary,
+        total_amount: total
+    };
+    $('orderStatus').style.display='block';
+    $('orderError').textContent='';
+    try{
+        const res = await fetch(`${WORKER_API_URL}/api/site/order`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if(!res.ok) throw new Error(data.message||'Gagal memproses pesanan');
+        // Reset cart
+        cart=[];
+        localStorage.removeItem('cart');
+        updateCartUI();
+        renderCart();
+        alert('Pesanan berhasil dikirim! Terima kasih.');
+        closeModal('cartModal');
+    }catch(err){
+        $('orderError').textContent=err.message;
+    }finally{
+        $('orderStatus').style.display='none';
+    }
+});
+
+/* ==== Auth Modal ==== */
+document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click',()=>switchAuthTab(tab.dataset.tab));
+});
+function switchAuthTab(tab){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+    $('loginForm').style.display = tab==='login'?'block':'none';
+    $('registerForm').style.display = tab==='register'?'block':'none';
+}
+$('loginBtn').addEventListener('click', async ()=>{
+    const email=$('loginEmail').value.trim();
+    const password=$('loginPassword').value;
+    if(!email||!password){$('loginError').textContent='Semua kolom wajib diisi.';return;}
+    $('loginError').textContent='';
+    try{
+        const res = await fetch(`${WORKER_API_URL}/api/site/login`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({site_slug:SITE_SLUG,email,password})
+        });
+        const data = await res.json();
+        if(!res.ok) throw new Error(data.message||'Login gagal');
+        if(data.success){
+            user=data.user;
+            localStorage.setItem('user',JSON.stringify(user));
+            updateUIAfterLogin();
+            closeModal('authModal');
+        }else throw new Error('Login tidak berhasil');
+    }catch(err){
+        $('loginError').textContent=err.message;
+    }
+});
+$('registerBtn').addEventListener('click', async ()=>{
+    const full_name=$('regName').value.trim();
+    const email=$('regEmail').value.trim();
+    const password=$('regPassword').value;
+    if(!full_name||!email||!password){$('registerError').textContent='Semua kolom wajib diisi.';return;}
+    $('registerError').textContent='';
+    try{
+        const res = await fetch(`${WORKER_API_URL}/api/site/register`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({site_slug:SITE_SLUG,full_name,email,password})
+        });
+        const data = await res.json();
+        if(!res.ok) throw new Error(data.message||'Registrasi gagal');
+        alert('Registrasi berhasil! Silakan masuk.');
+        switchAuthTab('login');
+    }catch(err){
+        $('registerError').textContent=err.message;
+    }
+});
+
+/* ==== UI after login ==== */
+function updateUIAfterLogin(){
+    if(user){
+        $('nav-login').textContent='Keluar';
+        $('nav-login').id='nav-logout';
+        $('dashboard').style.display='block';
+        $('userName').textContent=user.full_name;
+        $('userEmail').textContent=user.email;
+        $('userRole').textContent=user.role;
+    }else{
+        $('nav-login').textContent='Masuk / Daftar';
+        $('nav-login').id='nav-login';
+        $('dashboard').style.display='none';
+    }
+}
+if(user) updateUIAfterLogin();
+
+/* ==== Logout ==== */
+document.addEventListener('click',e=>{
+    if(e.target.id==='nav-logout'){
+        localStorage.removeItem('user');
+        user=null;
+        updateUIAfterLogin();
+    }
+    if(e.target.id==='nav-login'){
+        openModal('authModal');
+    }
+    if(e.target.id==='nav-dashboard'){
+        if(!user){alert('Harap masuk terlebih dahulu.');openModal('authModal');}
+    }
+});
+
+/* ==== Init ==== */
+updateCartUI();
+</script>
+</body>
+</html>

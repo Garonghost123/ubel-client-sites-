@@ -1,328 +1,148 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UBEL Company HQ – Jakarta</title>
-    <meta name="description" content="UBEL Company – agensi website, iklan digital, branding kit, dan aplikasi UBEL AI.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root{
-            --primary:#0d6efd;
-            --dark:#212529;
-            --light:#f8f9fa;
-            --gray:#6c757d;
-            --radius:8px;
-            --transition:.3s ease;
-            --font:"Inter",sans-serif;
-        }
-        *{box-sizing:border-box;margin:0;padding:0;}
-        body{
-            font-family:var(--font);
-            line-height:1.6;
-            color:#212529;
-            background:#fff;
-        }
-        a{color:inherit;text-decoration:none;}
-        img{max-width:100%;display:block;}
-        header{
-            position:fixed;
-            top:0;
-            left:0;
-            right:0;
-            background:rgba(255,255,255,.9);
-            backdrop-filter:blur(6px);
-            box-shadow:0 2px 4px rgba(0,0,0,.1);
-            z-index:1000;
-        }
-        .nav-container{
-            max-width:1200px;
-            margin:auto;
-            padding:0.8rem 1rem;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-        }
-        .nav-logo{
-            font-size:1.4rem;
-            font-weight:700;
-            color:var(--primary);
-        }
-        .nav-links{
-            display:flex;
-            gap:1.5rem;
-        }
-        .nav-links a{
-            font-weight:500;
-            color:var(--dark);
-            transition:color var(--transition);
-        }
-        .nav-links a:hover{color:var(--primary);}
-        .menu-toggle{
-            display:none;
-            background:none;
-            border:none;
-            font-size:1.5rem;
-            cursor:pointer;
-        }
-        /* Hero */
-        #hero{
-            min-height:100vh;
-            background:url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            text-align:center;
-            color:#fff;
-            padding-top:4rem;
-        }
-        #hero::before{
-            content:"";
-            position:absolute;
-            inset:0;
-            background:linear-gradient(135deg,rgba(13,107,253,.7),rgba(0,0,0,.5));
-            z-index:-1;
-        }
-        .hero-content{
-            max-width:800px;
-            padding:2rem;
-        }
-        .hero-content h1{
-            font-size:2.8rem;
-            margin-bottom:.5rem;
-        }
-        .hero-content p{
-            font-size:1.2rem;
-            margin-bottom:1.5rem;
-        }
-        .btn-primary{
-            display:inline-block;
-            padding:.8rem 1.6rem;
-            background:var(--primary);
-            color:#fff;
-            border-radius:var(--radius);
-            font-weight:600;
-            transition:background var(--transition);
-        }
-        .btn-primary:hover{background:#0b5ed7;}
-        /* Sections */
-        section{
-            padding:4rem 1rem;
-        }
-        .container{
-            max-width:1200px;
-            margin:auto;
-        }
-        .section-title{
-            text-align:center;
-            margin-bottom:2.5rem;
-        }
-        .section-title h2{
-            font-size:2.2rem;
-            color:var(--dark);
-        }
-        .services{
-            display:grid;
-            gap:2rem;
-            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-        }
-        .service-card{
-            background:#fff;
-            border-radius:var(--radius);
-            box-shadow:0 2px 8px rgba(0,0,0,.1);
-            overflow:hidden;
-            transition:transform var(--transition),box-shadow var(--transition);
-        }
-        .service-card:hover{
-            transform:translateY(-6px);
-            box-shadow:0 6px 12px rgba(0,0,0,.15);
-        }
-        .service-img{
-            height:180px;
-            background-size:cover;
-            background-position:center;
-        }
-        .service-body{
-            padding:1.2rem;
-        }
-        .service-body h3{
-            margin-bottom:.5rem;
-            font-size:1.3rem;
-            color:var(--primary);
-        }
-        .service-body p{
-            font-size:.95rem;
-            color:var(--gray);
-        }
-        /* Contact */
-        #contact{
-            background:linear-gradient(135deg,#0d6efd,#6610f2);
-            color:#fff;
-        }
-        .contact-box{
-            max-width:600px;
-            margin:auto;
-            text-align:center;
-        }
-        .contact-box h3{
-            margin-bottom:1rem;
-            font-size:1.8rem;
-        }
-        .contact-box p{
-            margin-bottom:1.5rem;
-        }
-        .contact-box .btn-email{
-            background:#fff;
-            color:var(--primary);
-            padding:.8rem 1.6rem;
-            border-radius:var(--radius);
-            font-weight:600;
-            transition:background var(--transition),color var(--transition);
-        }
-        .contact-box .btn-email:hover{
-            background:#e9ecef;
-        }
-        /* Footer */
-        footer{
-            background:#212529;
-            color:#adb5bd;
-            text-align:center;
-            padding:1.5rem 1rem;
-            font-size:.9rem;
-        }
-        /* Responsive */
-        @media (max-width:768px){
-            .nav-links{
-                position:fixed;
-                top:0;
-                right:-100%;
-                height:100vh;
-                width:250px;
-                background:#fff;
-                flex-direction:column;
-                padding-top:4rem;
-                gap:2rem;
-                transition:right var(--transition);
-                box-shadow:-2px 0 6px rgba(0,0,0,.1);
-            }
-            .nav-links.open{right:0;}
-            .menu-toggle{display:block;}
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UBEL Company HQ Jakarta — Agensi Digital & AI Otonom</title>
+  <style>
+    :root { --bg: #0b1120; --card: #111827; --border: #1f2937; --primary: #38bdf8; --accent: #818cf8; --text: #f8fafc; --muted: #94a3b8; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+    header { background: rgba(11,17,32,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .brand { font-weight: 800; font-size: 1.25rem; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero { max-width: 1000px; margin: 0 auto; padding: 64px 24px 40px; text-align: center; }
+    .hero h1 { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.2; margin-bottom: 16px; }
+    .hero p { color: var(--muted); max-width: 680px; margin: 0 auto 28px; }
+    .btn { display: inline-block; background: linear-gradient(90deg, var(--primary), var(--accent)); color: #0f172a; font-weight: 700; padding: 12px 24px; border-radius: 10px; text-decoration: none; border: none; cursor: pointer; }
+    .btn-outline { display: inline-block; margin-top: 12px; color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.92rem; }
+    section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    h2 { font-size: 1.6rem; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; }
+    .logo-thumb { width: 84px; height: 84px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; background: #fff; }
+    .logo-placeholder { width: 64px; height: 64px; border-radius: 14px; background: #1e293b; color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 14px; }
+    .badge { font-size: 0.75rem; color: var(--primary); background: rgba(56,189,248,0.12); padding: 3px 8px; border-radius: 6px; width: fit-content; margin-bottom: 8px; }
+    .slogan { color: #cbd5e1; font-style: italic; font-size: 0.92rem; margin: 4px 0 10px; }
+    .desc { color: var(--muted); font-size: 0.9rem; }
+    .price { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin: 10px 0; }
+    .order-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; max-width: 600px; margin: 0 auto; }
+    input, select { width: 100%; padding: 12px; margin: 8px 0 16px; border-radius: 10px; border: 1px solid var(--border); background: #0f172a; color: var(--text); }
+    footer { text-align: center; padding: 32px 24px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 40px; font-size: 0.9rem; }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="brand">UBEL COMPANY HQ</div>
+    <a href="#order" class="btn">Pesan Jasa</a>
+  </header>
 
-<header>
-    <div class="nav-container">
-        <div class="nav-logo">UBEL</div>
-        <nav>
-            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
-            <div class="nav-links">
-                <a href="#hero">Beranda</a>
-                <a href="#about">Tentang</a>
-                <a href="#services">Layanan</a>
-                <a href="#contact">Kontak</a>
-            </div>
-        </nav>
+  <div class="hero">
+    <h1>Solusi Website Full-Stack, Branding & Pemasaran AI</h1>
+    <p>Agensi digital berbasis di Jakarta. Membangun identitas merek, website toko online berfitur member, serta kampanye iklan digital secara cepat dan terukur.</p>
+    <a href="#portofolio" class="btn">Lihat Portofolio Karya</a>
+  </div>
+
+  <section id="portofolio">
+    <h2>Portofolio Terbaru (Diperbarui Otomatis)</h2>
+    <div class="grid">
+      
+    <div class="card">
+      <div class="logo-placeholder">KA</div>
+      <span class="badge">2026-11-19</span>
+      <h3>KAWA</h3>
+      <p class="slogan">"Segar Penuh Energi"</p>
+      <p class="desc">1. Analisis Pasar: Berdasarkan riset tren 2026, matcha kekinian menjadi kategori minuman fungsional yang sangat diminati, terutama dengan profil rasa creamy-milky dan intense-bold.</p>
+      <a href="https://Garonghost123.github.io/ubel-client-sites-/kawa-minuman-matcha-kekinian-len-64582.html" target="_blank" class="btn-outline">Kunjungi Website Live &rarr;</a>
     </div>
-</header>
-
-<section id="hero">
-    <div class="hero-content">
-        <h1>UBEL Company HQ – Jakarta</h1>
-        <p>Agensi kreatif yang menghubungkan website, iklan digital, branding kit, dan inovasi AI dalam satu paket lengkap.</p>
-        <a href="mailto:capolgaming05@gmail.com" class="btn-primary">Hubungi Kami</a>
+  
     </div>
-</section>
+  </section>
 
-<section id="about">
-    <div class="container">
-        <div class="section-title">
-            <h2>Tentang Kami</h2>
+  <section id="layanan">
+    <h2>Katalog Layanan Resmi</h2>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3>Website Full-Stack & Toko Online</h3>
+          <p class="desc">Website responsif lengkap dengan katalog, keranjang belanja, sistem daftar & login member, serta database cloud.</p>
         </div>
-        <p style="max-width:800px;margin:auto;text-align:center;color:var(--gray);font-size:1rem;">
-            UBEL Company berdiri di jantung Jakarta sebagai pusat inovasi digital. Kami membantu bisnis
-            memperkuat kehadiran online melalui desain website responsif, kampanye iklan yang terukur,
-            identitas merek yang kuat, serta solusi AI canggih yang meningkatkan produktivitas.
-        </p>
-    </div>
-</section>
-
-<section id="services">
-    <div class="container">
-        <div class="section-title">
-            <h2>Layanan Kami</h2>
+        <div class="price">Rp 1.000.000 - Rp 1.500.000</div>
+      </div>
+      <div class="card">
+        <div>
+          <h3>Logo & Branding Kit UMKM</h3>
+          <p class="desc">Desain logo vektor HD, palet warna resmi, slogan merek, dan panduan visual siap pakai.</p>
         </div>
-        <div class="services">
-            <div class="service-card">
-                <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="service-body">
-                    <h3>Website Agency</h3>
-                    <p>Desain dan pengembangan website modern, responsif, serta SEO‑friendly untuk semua jenis bisnis.</p>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="service-body">
-                    <h3>Iklan Digital</h3>
-                    <p>Strategi iklan terarah di Google, Facebook, Instagram, dan platform lainnya untuk meningkatkan ROI.</p>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="service-body">
-                    <h3>Branding Kit</h3>
-                    <p>Paket lengkap identitas visual: logo, palet warna, tipografi, dan panduan brand yang konsisten.</p>
-                </div>
-            </div>
-            <div class="service-card">
-                <div class="service-img" style="background-image:url('https://images.unsplash.com/photo-1581091012184-7e0c9d8c5c7e?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="service-body">
-                    <h3>UBEL AI App</h3>
-                    <p>Aplikasi AI berbasis cloud yang membantu otomatisasi konten, analisis data, dan interaksi pelanggan.</p>
-                </div>
-            </div>
+        <div class="price">Rp 250.000 - Rp 500.000</div>
+      </div>
+      <div class="card">
+        <div>
+          <h3>Setup Iklan Meta, TikTok & Google</h3>
+          <p class="desc">Riset audiens tertarget, copywriting konversi tinggi, dan struktur kampanye siap jalan.</p>
         </div>
+        <div class="price">Rp 500.000 (Jasa Setup)</div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section id="contact">
-    <div class="container">
-        <div class="contact-box">
-            <h3>Siap Memulai?</h3>
-            <p>Kirimkan email Anda kepada kami dan tim UBEL akan segera menghubungi Anda.</p>
-            <a href="mailto:capolgaming05@gmail.com" class="btn-email">Email ke capolgaming05@gmail.com</a>
-        </div>
+  <section id="order">
+    <div class="order-box">
+      <h2 style="margin-bottom:8px;">Ajukan Pemesanan Proyek</h2>
+      <p class="desc" style="margin-bottom:16px;">Pesanan Anda langsung masuk ke sistem pusat UBEL Company HQ Jakarta.</p>
+      <form id="orderForm">
+        <label>Nama Lengkap / Usaha</label>
+        <input type="text" id="custName" required placeholder="Contoh: Budi - Kopi Nusantara">
+        <label>Alamat Email Aktif (untuk pengiriman Invoice)</label>
+        <input type="email" id="custEmail" required placeholder="nama@email.com">
+        <label>Pilih Layanan</label>
+        <select id="custService">
+          <option value="Website Full-Stack (Rp 1.200.000)" data-price="1200000">Website Full-Stack & Login Member - Rp 1.200.000</option>
+          <option value="Logo + Branding Kit UMKM (Rp 350.000)" data-price="350000">Logo + Branding Kit UMKM - Rp 350.000</option>
+          <option value="Setup Iklan Digital (Rp 500.000)" data-price="500000">Setup Iklan Meta/TikTok/Google - Rp 500.000</option>
+          <option value="Undangan Digital Web (Rp 200.000)" data-price="200000">Undangan Digital Web Interaktif - Rp 200.000</option>
+        </select>
+        <button type="submit" class="btn" style="width:100%;">Kirim Pesanan Sekarang</button>
+      </form>
+      <p id="orderStatus" style="margin-top:14px;font-weight:600;color:var(--primary);"></p>
     </div>
-</section>
+  </section>
 
-<footer>
-    © 2026 UBEL Company – Jakarta. All rights reserved.
-</footer>
+  <footer>
+    &copy; 2026 UBEL Company HQ Jakarta. Ditenagai oleh Sistem Multi-Divisi AI Otonom.
+  </footer>
 
-<script>
-    // Mobile menu toggle
-    const toggleBtn = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    toggleBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
-    });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e){
-            const target = document.querySelector(this.getAttribute('href'));
-            if(target){
-                e.preventDefault();
-                target.scrollIntoView({behavior:'smooth'});
-                // close mobile menu after click
-                if(navLinks.classList.contains('open')) navLinks.classList.remove('open');
-            }
+  <script>
+    const WORKER_API_URL = "https://ubelcompanyhq.capolgaming04.workers.dev";
+    const SITE_SLUG = "ubel-company-hq";
+    document.getElementById("orderForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById("orderStatus");
+      statusEl.textContent = "Mengirim pesanan...";
+      const sel = document.getElementById("custService");
+      const price = Number(sel.options[sel.selectedIndex].dataset.price || 0);
+      const summary = document.getElementById("custName").value + " - " + sel.value;
+      try {
+        const res = await fetch(WORKER_API_URL + "/api/site/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            site_slug: SITE_SLUG,
+            user_email: document.getElementById("custEmail").value,
+            items_summary: summary,
+            total_amount: price
+          })
         });
+        const data = await res.json();
+        if (data.success) {
+          statusEl.textContent = "Pesanan berhasil diterima! Tim UBEL Company HQ segera menghubungi Anda.";
+          e.target.reset();
+        } else {
+          statusEl.textContent = "Gagal mengirim: " + (data.error || "Coba lagi.");
+        }
+      } catch (err) {
+        statusEl.textContent = "Koneksi terganggu: " + err.message;
+      }
     });
-</script>
-
+  </script>
 </body>
 </html>

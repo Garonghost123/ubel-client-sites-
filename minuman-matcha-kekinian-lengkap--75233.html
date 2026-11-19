@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>MatchaMingle – Sip the Trend, Share the Green</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#A8D5BA;
+    --accent:#D4AF37;
+    --bg:#fff;
+    --text:#333;
+    --radius:8px;
+    --transition:.3s;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);}
+a{text-decoration:none;color:inherit;}
+header{background:var(--primary);color:#fff;padding:1rem;display:flex;align-items:center;justify-content:space-between;}
+header img{height:40px;}
+header h1{font-size:1.2rem;margin-left:0.5rem;}
+nav a{margin:0 .5rem;color:#fff;}
+.hero{background:url('https://Garonghost123.github.io/ubel-client-sites-/assets/img-160582.jpg') center/cover no-repeat;min-height:250px;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center;}
+.hero h2{font-size:2rem; text-shadow:0 2px 4px rgba(0,0,0,.5);}
+section{padding:1rem;}
+h2{margin-bottom:.5rem;color:var(--primary);}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;}
+.product{background:#fff;border:1px solid #eee;border-radius:var(--radius);padding:.5rem;display:flex;flex-direction:column;justify-content:space-between;transition:var(--transition);}
+.product img{width:100%;height:120px;object-fit:cover;border-radius:var(--radius) var(--radius) 0 0;}
+.product h3{font-size:1rem;margin:.5rem 0;}
+.product p{font-size:.9rem;color:#666;flex-grow:1;}
+.product .price{font-weight:bold;color:var(--accent);margin:.5rem 0;}
+.product button{background:var(--primary);color:#fff;border:none;padding:.5rem;border-radius:var(--radius);cursor:pointer;transition:var(--transition);}
+.product button:hover{background:var(--accent);}
+.cart-btn{position:fixed;bottom:1rem;right:1rem;background:var(--accent);color:#fff;padding:.8rem 1.2rem;border:none;border-radius:50px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;}
+.modal.active{display:flex;}
+.modal-content{background:#fff;padding:1.5rem;border-radius:var(--radius);width:90%;max-width:400px;position:relative;}
+.modal-content h3{margin-bottom:1rem;color:var(--primary);}
+.modal-content .close{position:absolute;top:.5rem;right:.5rem;background:none;border:none;font-size:1.2rem;cursor:pointer;}
+.tabs{display:flex;border-bottom:1px solid #eee;margin-bottom:1rem;}
+.tabs button{flex:1;padding:.5rem;background:none;border:none;cursor:pointer;transition:var(--transition);}
+.tabs button.active{border-bottom:2px solid var(--primary);font-weight:bold;}
+form{display:flex;flex-direction:column;}
+form input{margin-bottom:.8rem;padding:.5rem;border:1px solid #ccc;border-radius:var(--radius);}
+form button{background:var(--primary);color:#fff;border:none;padding:.6rem;border-radius:var(--radius);cursor:pointer;transition:var(--transition);}
+form button:hover{background:var(--accent);}
+.dashboard{display:none;}
+.dashboard.active{display:block;}
+@media(max-width:600px){
+    header{flex-direction:column;align-items:flex-start;}
+    .hero h2{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div style="display:flex;align-items:center;">
+        <img src="https://Garonghost123.github.io/ubel-client-sites-/assets/img-160582.jpg" alt="MatchaMingle Logo">
+        <h1>MatchaMingle</h1>
+    </div>
+    <nav id="nav-links">
+        <a href="#" id="nav-home">Beranda</a>
+        <a href="#" id="nav-shop">Toko</a>
+        <a href="#" id="nav-blog">Blog</a>
+        <a href="#" id="nav-dashboard">Dashboard</a>
+        <a href="#" id="nav-login">Login</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <h2>Sip the Trend, Share the Green</h2>
+</div>
+
+<section id="section-home">
+    <h2>Selamat Datang di MatchaMingle</h2>
+    <p>Minuman matcha premium untuk generasi kreatif. Nikmati rasa autentik, bagikan momenmu, dan dapatkan reward menarik!</p>
+</section>
+
+<section id="section-shop" style="display:none;">
+    <h2>Katalog Produk</h2>
+    <div class="product-grid" id="product-grid"></div>
+</section>
+
+<section id="section-blog" style="display:none;">
+    <h2>Blog & Tips</h2>
+    <p>Coming soon...</p>
+</section>
+
+<section id="section-dashboard" class="dashboard">
+    <h2>Dashboard Member</h2>
+    <p id="welcome-msg"></p>
+    <h3>Riwayat Order</h3>
+    <ul id="order-history"></ul>
+    <button id="logout-btn" style="margin-top:1rem;background:#c33;color:#fff;">Logout</button>
+</section>
+
+<button class="cart-btn" id="cart-btn">Keranjang (0)</button>
+
+<!-- Modal -->
+<div class="modal" id="auth-modal">
+    <div class="modal-content">
+        <button class="close" id="modal-close">&times;</button>
+        <div class="tabs">
+            <button class="active" data-tab="login">Login</button>
+            <button data-tab="register">Register</button>
+        </div>
+        <div id="login-tab">
+            <h3>Login Member</h3>
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div id="register-tab" style="display:none;">
+            <h3>Daftar Member Baru</h3>
+            <form id="register-form">
+                <input type="text" id="reg-fullname" placeholder="Nama Lengkap" required>
+                <input type="email" id="reg-email" placeholder="Email" required>
+                <input type="password" id="reg-password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Cart Modal -->
+<div class="modal" id="cart-modal">
+    <div class="modal-content" style="max-width:500px;">
+        <button class="close" id="cart-close">&times;</button>
+        <h3>Keranjang Belanja</h3>
+        <div id="cart-items"></div>
+        <p id="cart-total" style="font-weight:bold;margin-top:1rem;"></p>
+        <button id="checkout-btn" style="background:var(--accent);margin-top:.5rem;">Checkout</button>
+    </div>
+</div>
+
+<script>
+/*=== Konstanta API ===*/
+const WORKER_API_URL = "https://ubelcompanyhq.capolgaming04.workers.dev"; // Ganti dengan URL Worker Anda
+const SITE_SLUG = "minuman-matcha-kekinian-lengkap--75233";
+
+/*=== Data Produk (dummy) ===*/
+const PRODUCTS = [
+    {id:1,name:'Matcha Latte',price:45000, img:'https://images.unsplash.com/photo-1582719478250-0c8b5a9e5c2b?auto=format&fit=crop&w=400&q=60',desc:'Latte lembut dengan bubuk matcha premium.'},
+    {id:2,name:'Matcha Smoothie',price:50000, img:'https://images.unsplash.com/photo-1582719478250-0c8b5a9e5c2b?auto=format&fit=crop&w=400&q=60',desc:'Smoothie segar penuh anti‑oksidan.'},
+    {id:3,name:'Matcha Ice Cream',price:55000, img:'https://images.unsplash.com/photo-1582719478250-0c8b5a9e5c2b?auto=format&fit=crop&w=400&q=60',desc:'Es krim matcha creamy, cocok untuk hari panas.'},
+    {id:4,name:'Matcha Kit DIY',price:65000, img:'https://images.unsplash.com/photo-1582719478250-0c8b5a9e5c2b?auto=format&fit=crop&w=400&q=60',desc:'Semua yang Anda butuhkan untuk membuat matcha di rumah.'}
+];
+
+/*=== Helper LocalStorage ===*/
+function setUser(user){localStorage.setItem('mm_user',JSON.stringify(user));}
+function getUser(){return JSON.parse(localStorage.getItem('mm_user'));}
+function clearUser(){localStorage.removeItem('mm_user');}
+function setCart(cart){localStorage.setItem('mm_cart',JSON.stringify(cart));}
+function getCart(){return JSON.parse(localStorage.getItem('mm_cart'))||[];}
+function addOrder(order){let orders=JSON.parse(localStorage.getItem('mm_orders'))||[];orders.push(order);localStorage.setItem('mm_orders',JSON.stringify(orders));}
+function getOrders(){return JSON.parse(localStorage.getItem('mm_orders'))||[];}
+
+/*=== Render Produk ===*/
+function renderProducts(){
+    const grid=document.getElementById('product-grid');
+    grid.innerHTML='';
+    PRODUCTS.forEach(p=>{
+        const div=document.createElement('div');
+        div.className='product';
+        div.innerHTML=`
+            <img src="${p.img}" alt="${p.name}">
+            <h3>${p.name}</h3>
+            <p>${p.desc}</p>
+            <div class="price">Rp ${p.price.toLocaleString()}</div>
+            <button data-id="${p.id}">Tambah ke Keranjang</button>
+        `;
+        grid.appendChild(div);
+    });
+}
+
+/*=== Cart Management ===*/
+function updateCartBtn(){
+    const count=getCart().reduce((a,b)=>a+b.qty,0);
+    document.getElementById('cart-btn').textContent=`Keranjang (${count})`;
+}
+function renderCart(){
+    const container=document.getElementById('cart-items');
+    const cart=getCart();
+    if(cart.length===0){
+        container.innerHTML='<p>Keranjang kosong.</p>';
+        document.getElementById('cart-total').textContent='';
+        return;
+    }
+    let total=0;
+    container.innerHTML='';
+    cart.forEach(item=>{
+        const prod=PRODUCTS.find(p=>p.id===item.id);
+        const sub=item.qty*prod.price;
+        total+=sub;
+        const div=document.createElement('div');
+        div.style.display='flex';
+        div.style.justifyContent='space-between';
+        div.style.marginBottom='0.5rem';
+        div.innerHTML=`
+            <span>${prod.name} x ${item.qty}</span>
+            <span>Rp ${sub.toLocaleString()}</span>
+        `;
+        container.appendChild(div);
+    });
+    document.getElementById('cart-total').textContent=`Total: Rp ${total.toLocaleString()}`;
+}
+
+/*=== Auth Handlers ===*/
+async function apiPost(path, data){
+    const res=await fetch(`${WORKER_API_URL}${path}`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data)
+    });
+    return res.json();
+}
+document.getElementById('register-form').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const full_name=document.getElementById('reg-fullname').value.trim();
+    const email=document.getElementById('reg-email').value.trim();
+    const password=document.getElementById('reg-password').value;
+    const resp=await apiPost('/api/site/register',{site_slug:SITE_SLUG,full_name,email,password});
+    if(resp.success!==false){
+        alert('Registrasi berhasil, silakan login.');
+        switchTab('login');
+    }else{
+        alert('Registrasi gagal: '+(resp.message||'Cek kembali data Anda.'));
+    }
+});
+document.getElementById('login-form').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const email=document.getElementById('login-email').value.trim();
+    const password=document.getElementById('login-password').value;
+    const resp=await apiPost('/api/site/login',{site_slug:SITE_SLUG,email,password});
+    if(resp.success){
+        setUser(resp.user);
+        updateNav();
+        closeModal();
+        loadDashboard();
+    }else{
+        alert('Login gagal: '+(resp.message||'Cek kembali email/password.'));
+    }
+});
+function logout(){
+    clearUser();
+    updateNav();
+    document.getElementById('section-dashboard').classList.remove('active');
+}
+
+/*=== UI Navigation ===*/
+function hideAllSections(){
+    document.querySelectorAll('section').forEach(s=>s.style.display='none');
+}
+document.getElementById('nav-home').addEventListener('click',()=>{hideAllSections();document.getElementById('section-home').style.display='block';});
+document.getElementById('nav-shop').addEventListener('click',()=>{hideAllSections();document.getElementById('section-shop').style.display='block';});
+document.getElementById('nav-blog').addEventListener('click',()=>{hideAllSections();document.getElementById('section-blog').style.display='block';});
+document.getElementById('nav-dashboard').addEventListener('click',()=>{hideAllSections();document.getElementById('section-dashboard').classList.add('active');});
+document.getElementById('nav-login').addEventListener('click',openModal);
+
+/*=== Modal Logic ===*/
+const authModal=document.getElementById('auth-modal');
+function openModal(){authModal.classList.add('active');}
+function closeModal(){authModal.classList.remove('active');}
+document.getElementById('modal-close').addEventListener('click',closeModal);
+document.querySelectorAll('.tabs button').forEach(btn=>{
+    btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
+});
+function switchTab(tab){
+    document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+    document.getElementById('login-tab').style.display = tab==='login'?'block':'none';
+    document.getElementById('register-tab').style.display = tab==='register'?'block':'none';
+}
+
+/*=== Cart Modal ===*/
+const cartModal=document.getElementById('cart-modal');
+document.getElementById('cart-btn').addEventListener('click',()=>{
+    renderCart();
+    cartModal.classList.add('active');
+});
+document.getElementById('cart-close').addEventListener('click',()=>cartModal.classList.remove('active'));
+
+/*=== Add to Cart ===*/
+document.getElementById('product-grid').addEventListener('click',e=>{
+    if(e.target.tagName==='BUTTON'){
+        const id=parseInt(e.target.dataset.id);
+        const cart=getCart();
+        const existing=cart.find(i=>i.id===id);
+        if(existing) existing.qty+=1;
+        else cart.push({id,qty:1});
+        setCart(cart);
+        updateCartBtn();
+        alert('Produk ditambahkan ke keranjang.');
+    }
+});
+
+/*=== Checkout ===*/
+document.getElementById('checkout-btn').addEventListener('click', async ()=>{
+    const user=getUser();
+    if(!user){
+        alert('Silakan login terlebih dahulu.');
+        closeModal();
+        openModal();
+        return;
+    }
+    const cart=getCart();
+    if(cart.length===0){alert('Keranjang kosong.');return;}
+    const itemsSummary=cart.map(i=>{
+        const p=PRODUCTS.find(pr=>pr.id===i.id);
+        return `${p.name} x ${i.qty}`;
+    }).join(', ');
+    const total=cart.reduce((sum,i)=>sum+ i.qty*PRODUCTS.find(p=>p.id===i.id).price,0);
+    const orderPayload={site_slug:SITE_SLUG,user_email:user.email,items_summary:itemsSummary,total_amount:total};
+    const resp=await apiPost('/api/site/order',orderPayload);
+    if(resp.success!==false){
+        alert('Order berhasil! Terima kasih.');
+        addOrder({items:itemsSummary,total:total,date:new Date().toLocaleString()});
+        setCart([]);
+        updateCartBtn();
+        renderCart();
+        cartModal.classList.remove('active');
+        loadDashboard();
+    }else{
+        alert('Order gagal: '+(resp.message||'Coba lagi.'));
+    }
+});
+
+/*=== Dashboard ===*/
+function loadDashboard(){
+    const user=getUser();
+    if(!user){return;}
+    document.getElementById('welcome-msg').textContent=`Halo, ${user.full_name} (${user.email})`;
+    const history=document.getElementById('order-history');
+    const orders=getOrders();
+    history.innerHTML='';
+    if(orders.length===0){
+        history.innerHTML='<li>Belum ada order.</li>';
+        return;
+    }
+    orders.forEach(o=>{
+        const li=document.createElement('li');
+        li.textContent=`${o.date} – ${o.items} – Rp ${o.total.toLocaleString()}`;
+        history.appendChild(li);
+    });
+}
+
+/*=== Nav Update based on auth ===*/
+function updateNav(){
+    const user=getUser();
+    const loginLink=document.getElementById('nav-login');
+    const dashboardLink=document.getElementById('nav-dashboard');
+    if(user){
+        loginLink.style.display='none';
+        dashboardLink.style.display='inline';
+    }else{
+        loginLink.style.display='inline';
+        dashboardLink.style.display='none';
+    }
+}
+
+/*=== Init ===*/
+renderProducts();
+updateCartBtn();
+updateNav();
+document.getElementById('logout-btn').addEventListener('click',()=>{logout();document.getElementById('section-dashboard').classList.remove('active');});
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="emblemGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bgGrad)"/>
+  <circle cx="512" cy="360" r="145" fill="url(#emblemGrad)" opacity="0.16"/>
+  <rect x="402" y="250" width="220" height="220" rx="54" fill="url(#emblemGrad)"/>
+  <text x="512" y="388" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="96" font-weight="800" fill="#0f172a">KO</text>
+  <text x="512" y="595" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="800" fill="#f8fafc" letter-spacing="1">KopiKita</text>
+  <text x="512" y="665" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="34" font-weight="500" fill="#94a3b8" letter-spacing="2">Rasa. Gaya. Nikmat</text>
+</svg>

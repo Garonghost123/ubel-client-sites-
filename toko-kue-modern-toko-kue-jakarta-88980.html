@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Toko Kue Jakarta</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#ff6b6b;
+    --secondary:#f7c59f;
+    --bg:#fafafa;
+    --text:#333;
+    --radius:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+    font-family:system-ui,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+}
+header{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    padding:1rem 2rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+header h1{font-size:1.5rem;cursor:pointer;}
+nav a{margin-left:1rem;color:#fff;text-decoration:none;font-weight:500;}
+nav a:hover{opacity:.8;}
+#hero{
+    background:url('https://images.unsplash.com/photo-1589308078054-6e5e4d6e5c7c?auto=format&fit=crop&w=1350&q=80') center/cover;
+    height:250px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    text-align:center;
+}
+#hero h2{font-size:2rem;text-shadow:0 2px 4px rgba(0,0,0,.5);}
+main{padding:2rem;}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1.5rem;
+}
+.card{
+    background:#fff;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+    display:flex;
+    flex-direction:column;
+}
+.card img{width:100%;height:150px;object-fit:cover;}
+.card .info{padding:1rem;flex:1;}
+.card .info h3{margin-bottom:.5rem;}
+.card .info p{margin-bottom:1rem;color:#666;}
+.card button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:.75rem;
+    cursor:pointer;
+    width:100%;
+    font-weight:600;
+}
+.card button:hover{background:#e05555;}
+/* Modal */
+.modal{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,.5);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;transition:opacity .3s;
+}
+.modal.active{opacity:1;visibility:visible;}
+.modal .box{
+    background:#fff;
+    border-radius:var(--radius);
+    width:90%;max-width:400px;
+    padding:2rem;
+    position:relative;
+}
+.modal .close{
+    position:absolute;top:.5rem;right:.5rem;
+    background:none;border:none;font-size:1.5rem;cursor:pointer;
+}
+.tabs{display:flex;border-bottom:1px solid #ddd;margin-bottom:1rem;}
+.tabs button{
+    flex:1;padding:.5rem;
+    background:none;border:none;
+    font-weight:600;cursor:pointer;
+}
+.tabs button.active{border-bottom:2px solid var(--primary);color:var(--primary);}
+form{display:flex;flex-direction:column;}
+form input{
+    padding:.75rem;
+    margin-bottom:.75rem;
+    border:1px solid #ccc;
+    border-radius:var(--radius);
+}
+form button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:.75rem;
+    cursor:pointer;
+    font-weight:600;
+}
+form button:disabled{background:#aaa;cursor:not-allowed;}
+.message{margin-top:.5rem;font-size:.9rem;}
+.message.error{color:#d00;}
+.message.success{color:#090;}
+/* Cart */
+#cartBtn{
+    position:relative;
+}
+#cartCount{
+    position:absolute;top:-5px;right:-10px;
+    background:#fff;color:var(--primary);
+    border-radius:50%;padding:2px 6px;
+    font-size:.75rem;font-weight:600;
+}
+#cartModal .box{max-width:500px;}
+.cart-items{max-height:300px;overflow-y:auto;margin-bottom:1rem;}
+.cart-item{
+    display:flex;justify-content:space-between;
+    padding:.5rem 0;border-bottom:1px solid #eee;
+}
+.cart-item span{font-size:.9rem;}
+.cart-total{font-weight:600;text-align:right;margin-bottom:1rem;}
+@media(max-width:600px){
+    header{flex-direction:column;align-items:flex-start;}
+    nav{margin-top:.5rem;}
+}
+</style>
+<script>window.WORKER_API_URL="https://ubelcompanyhq.capolgaming04.workers.dev";window.SITE_SLUG="toko-kue-modern-toko-kue-jakarta-88980";const WORKER_API_URL="https://ubelcompanyhq.capolgaming04.workers.dev";const SITE_SLUG="toko-kue-modern-toko-kue-jakarta-88980";</script>
+</head>
+<body>
+<header>
+    <h1 id="logo">Toko Kue Jakarta</h1>
+    <nav>
+        <a href="#" id="cartBtn">Keranjang <span id="cartCount">0</span></a>
+        <a href="#" id="authBtn">Masuk / Daftar</a>
+        <a href="#" id="dashboardLink" style="display:none;">Dashboard</a>
+        <a href="#" id="logoutBtn" style="display:none;">Keluar</a>
+    </nav>
+</header>
+
+<section id="hero">
+    <h2>Manisnya Kue, Hangatnya Jakarta</h2>
+</section>
+
+<main>
+    <div class="grid" id="productGrid">
+        <!-- Sample products -->
+        <div class="card" data-id="1" data-name="Red Velvet" data-price="25000">
+            <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=400&q=80" alt="Red Velvet">
+            <div class="info">
+                <h3>Red Velvet</h3>
+                <p>Rp 25.000</p>
+                <button class="addCart">Tambah ke Keranjang</button>
+            </div>
+        </div>
+        <div class="card" data-id="2" data-name="Cheesecake" data-price="30000">
+            <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=400&q=80" alt="Cheesecake">
+            <div class="info">
+                <h3>Cheesecake</h3>
+                <p>Rp 30.000</p>
+                <button class="addCart">Tambah ke Keranjang</button>
+            </div>
+        </div>
+        <div class="card" data-id="3" data-name="Brownies" data-price="20000">
+            <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=400&q=80" alt="Brownies">
+            <div class="info">
+                <h3>Brownies</h3>
+                <p>Rp 20.000</p>
+                <button class="addCart">Tambah ke Keranjang</button>
+            </div>
+        </div>
+        <!-- Add more products as needed -->
+    </div>
+</main>
+
+<!-- Auth Modal -->
+<div class="modal" id="authModal">
+    <div class="box">
+        <button class="close" id="closeAuth">&times;</button>
+        <div class="tabs">
+            <button class="tabBtn active" data-tab="login">Masuk</button>
+            <button class="tabBtn" data-tab="register">Daftar</button>
+        </div>
+        <!-- Login Form -->
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Kata Sandi" required>
+            <button type="submit" id="loginSubmit">Masuk</button>
+            <div class="message" id="loginMsg"></div>
+        </form>
+        <!-- Register Form -->
+        <form id="registerForm" style="display:none;">
+            <input type="text" id="regFullName" placeholder="Nama Lengkap" required>
+            <input type="email" id="regEmail" placeholder="Email" required>
+            <input type="password" id="regPassword" placeholder="Kata Sandi" required>
+            <button type="submit" id="regSubmit">Daftar</button>
+            <div class="message" id="regMsg"></div>
+        </form>
+    </div>
+</div>
+
+<!-- Cart Modal -->
+<div class="modal" id="cartModal">
+    <div class="box">
+        <button class="close" id="closeCart">&times;</button>
+        <h3>Keranjang Belanja</h3>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-total" id="cartTotal"></div>
+        <button id="checkoutBtn">Checkout</button>
+        <div class="message" id="checkoutMsg"></div>
+    </div>
+</div>
+
+<script>
+/* ---------- CONFIG ---------- */
+const WORKER_API_URL = 'https://example.com'; // <-- ganti dengan URL API Anda
+const SITE_SLUG = 'toko-kue-jakarta';
+
+/* ---------- STATE ---------- */
+let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+let user = JSON.parse(localStorage.getItem('user')||'null');
+
+/* ---------- UTILITIES ---------- */
+function $(sel){return document.querySelector(sel);}
+function $$(sel){return document.querySelectorAll(sel);}
+function show(el){el.classList.add('active');}
+function hide(el){el.classList.remove('active');}
+function setMessage(el,msg,type='error'){
+    const m = $(el);
+    m.textContent = msg;
+    m.className = 'message '+type;
+}
+function clearMessage(el){$(el).textContent='';}
+
+/* ---------- AUTH HANDLERS ---------- */
+function updateAuthUI(){
+    if(user){
+        $('#authBtn').style.display='none';
+        $('#dashboardLink').style.display='inline';
+        $('#logoutBtn').style.display='inline';
+        $('#dashboardLink').textContent=`Halo, ${user.full_name}`;
+    }else{
+        $('#authBtn').style.display='inline';
+        $('#dashboardLink').style.display='none';
+        $('#logoutBtn').style.display='none';
+    }
+}
+function saveUser(u){
+    user = u;
+    localStorage.setItem('user',JSON.stringify(u));
+    updateAuthUI();
+}
+function clearUser(){
+    user = null;
+    localStorage.removeItem('user');
+    updateAuthUI();
+}
+$('#authBtn').addEventListener('click',e=>{e.preventDefault();show($('#authModal'));});
+$('#closeAuth').addEventListener('click',()=>{hide($('#authModal'));});
+$('#logoutBtn').addEventListener('click',e=>{e.preventDefault();clearUser();});
+
+/* Tab switching */
+$$('.tabBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        $$('.tabBtn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        if(tab==='login'){
+            $('#loginForm').style.display='block';
+            $('#registerForm').style.display='none';
+        }else{
+            $('#loginForm').style.display='none';
+            $('#registerForm').style.display='block';
+        }
+        clearMessage('#loginMsg');
+        clearMessage('#regMsg');
+    });
+});
+
+/* Register */
+$('#registerForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const full_name = $('#regFullName').value.trim();
+    const email = $('#regEmail').value.trim();
+    const password = $('#regPassword').value;
+    setMessage('#regMsg','Mendaftar...', 'success');
+    try{
+        const res = await fetch(`${WORKER_API_URL}/api/site/register`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({site_slug:SITE_SLUG,full_name,email,password})
+        });
+        const data = await res.json();
+        if(res.ok){
+            setMessage('#regMsg','Berhasil daftar! Silakan masuk.', 'success');
+            // auto switch to login
+            setTimeout(()=>{$('.tabBtn[data-tab="login"]').click();},1500);
+        }else{
+            setMessage('#regMsg',data.error||'Gagal mendaftar', 'error');
+        }
+    }catch(err){
+        setMessage('#regMsg','Network error', 'error');
+    }
+});
+
+/* Login */
+$('#loginForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const email = $('#loginEmail').value.trim();
+    const password = $('#loginPassword').value;
+    setMessage('#loginMsg','Masuk...', 'success');
+    try{
+        const res = await fetch(`${WORKER_API_URL}/api/site/login`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({site_slug:SITE_SLUG,email,password})
+        });
+        const data = await res.json();
+        if(res.ok && data.success){
+            saveUser(data.user);
+            hide($('#authModal'));
+            setMessage('#loginMsg','', 'success');
+        }else{
+            setMessage('#loginMsg',data.error||'Login gagal', 'error');
+        }
+    }catch(err){
+        setMessage('#loginMsg','Network error', 'error');
+    }
+});
+
+/* ---------- CART HANDLERS ---------- */
+function renderCart(){
+    const container = $('#cartItems');
+    container.innerHTML='';
+    let total = 0;
+    cart.forEach((item,i)=>{
+        const div = document.createElement('div');
+        div.className='cart-item';
+        div.innerHTML = `
+            <span>${item.name} x ${item.qty}</span>
+            <span>Rp ${(item.price*item.qty).toLocaleString()}</span>
+        `;
+        container.appendChild(div);
+        total += item.price*item.qty;
+    });
+    $('#cartTotal').textContent = `Total: Rp ${total.toLocaleString()}`;
+    $('#cartCount').textContent = cart.reduce((a,b)=>a+b.qty,0);
+    localStorage.setItem('cart',JSON.stringify(cart));
+}
+function addToCart(product){
+    const existing = cart.find(i=>i.id===product.id);
+    if(existing){
+        existing.qty+=1;
+    }else{
+        cart.push({...product, qty:1});
+    }
+    renderCart();
+}
+$('#cartBtn').addEventListener('click',e=>{e.preventDefault();show($('#cartModal'));});
+$('#closeCart').addEventListener('click',()=>{hide($('#cartModal'));});
+
+/* Add to cart buttons */
+$$('.addCart').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        const card = btn.closest('.card');
+        const product = {
+            id: card.dataset.id,
+            name: card.dataset.name,
+            price: parseInt(card.dataset.price)
+        };
+        addToCart(product);
+    });
+});
+
+/* Checkout */
+$('#checkoutBtn').addEventListener('click',async ()=>{
+    if(!user){
+        setMessage('#checkoutMsg','Silakan masuk terlebih dahulu','error');
+        return;
+    }
+    if(cart.length===0){
+        setMessage('#checkoutMsg','Keranjang kosong','error');
+        return;
+    }
+    setMessage('#checkoutMsg','Mengirim pesanan...','success');
+    const items_summary = cart.map(i=>({name:i.name, qty:i.qty, price:i.price}));
+    const total_amount = cart.reduce((a,b)=>a+b.price*b.qty,0);
+    try{
+        const res = await fetch(`${WORKER_API_URL}/api/site/order`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                site_slug:SITE_SLUG,
+                user_email:user.email,
+                items_summary,
+                total_amount
+            })
+        });
+        const data = await res.json();
+        if(res.ok){
+            setMessage('#checkoutMsg','Pesanan berhasil! Terima kasih.', 'success');
+            cart = [];
+            renderCart();
+        }else{
+            setMessage('#checkoutMsg',data.error||'Gagal checkout', 'error');
+        }
+    }catch(err){
+        setMessage('#checkoutMsg','Network error', 'error');
+    }
+});
+
+/* ---------- INITIALIZE ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+    updateAuthUI();
+    renderCart();
+});
+</script>
+</body>
+</html>
